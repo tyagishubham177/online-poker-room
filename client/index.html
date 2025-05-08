@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MVP Poker Room</title>
     <link rel="stylesheet" href="css/main.css" />
-    <!-- We'll create this later -->
   </head>
   <body>
     <h1>Welcome to MVP Poker Room!</h1>
-    <p>Server is working if you see this.</p>
+    <p>Attempting Socket.IO connection...</p>
+    <div id="messages"></div>
+    <input type="text" id="messageInput" placeholder="Send a message to server" />
+    <button id="sendMessageButton">Send</button>
 
+    <!-- Socket.IO Client Library -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Your custom client script -->
     <script src="js/main.js"></script>
-    <!-- We'll create this later -->
   </body>
 </html>
