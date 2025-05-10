@@ -5,6 +5,7 @@ module.exports = function initializeRoomEventHandlers(context) {
 
   // FR-1, FR-2, FR-3
   socket.on("createRoom", (data = {}) => {
+    console.log(`SERVER: Received 'createRoom' event from ${socket.id} with data:`, data); // <<< ADD THIS
     try {
       const roomConfig = {
         name: data.name, // FR-1
@@ -34,7 +35,7 @@ module.exports = function initializeRoomEventHandlers(context) {
         initialRoomState: room.getRoomState(),
       });
     } catch (error) {
-      console.error("Error creating room:", error);
+      console.error("SERVER: Error in 'createRoom' handler:", error); // <<< ADD THIS (if not already there)
       socket.emit("errorCreatingRoom", { message: error.message || "Could not create room." });
     }
   });

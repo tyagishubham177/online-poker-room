@@ -35,30 +35,37 @@ const handHistoryArea = document.getElementById("hand-history-area");
 
 export function init(socketsModule) {
   Sockets = socketsModule;
+  console.log("roomManagerUI.init called"); // Check if init is called
 
-  createRoomButton.addEventListener("click", () => {
-    const roomName = roomNameInput.value.trim();
-    const sb = parseInt(sbInput.value);
-    const bb = parseInt(bbInput.value);
+  if (createRoomButton) {
+    // Check if button is found
+    console.log("Create Room button found.");
+    createRoomButton.addEventListener("click", () => {
+      console.log("Create Room button clicked!"); // <<< ADD THIS
+      const roomName = roomNameInput.value.trim();
+      const sb = parseInt(sbInput.value);
+      const bb = parseInt(bbInput.value);
 
-    if (isNaN(sb) || sb <= 0 || isNaN(bb) || bb <= 0) {
-      Sockets.uiUpdaters.displayMessage?.({
-        type: "error",
-        text: "Small and Big Blinds must be valid positive numbers.",
-      });
-      return;
-    }
-    // Add more validation for buy-in multipliers if inputs are added for them
+      if (isNaN(sb) || sb <= 0 || isNaN(bb) || bb <= 0) {
+        console.error("Invalid blind values from UI."); // Log the error
+        Sockets.uiUpdaters.displayMessage?.({
+          type: "error",
+          text: "Small and Big Blinds must be valid positive numbers.",
+        });
+        return;
+      }
 
-    Sockets.createRoom({
-      name: roomName || undefined, // Send undefined if empty so server uses default
-      smallBlind: sb,
-      bigBlind: bb,
-      // Add other config options here if UI elements are added
-      // minBuyInMultiplier: 20, // Example defaults, can be from form
-      // maxBuyInMultiplier: 100,
+      const config = {
+        name: roomName || undefined,
+        smallBlind: sb,
+        bigBlind: bb,
+      };
+      console.log("Emitting createRoom with config:", config); // <<< ADD THIS
+      Sockets.createRoom(config);
     });
-  });
+  } else {
+    console.error("Create Room button NOT found!"); // Important if button ID is wrong
+  }
 
   joinRoomButton.addEventListener("click", () => {
     const roomId = joinRoomIdInput.value.trim().toUpperCase(); // Server generates uppercase IDs

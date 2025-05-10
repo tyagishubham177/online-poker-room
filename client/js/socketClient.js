@@ -163,7 +163,14 @@ export function connectToServer() {
 
 // --- Emitter Functions (Actions Client Can Take) ---
 export function createRoom(config) {
-  if (!socket) return console.error("Socket not connected");
+  if (!socket) {
+    console.error("Socket not connected when trying to createRoom"); // <<< ADD THIS
+    return;
+  }
+  if (!socket.connected) {
+    console.error("Socket is not in a 'connected' state for createRoom"); // <<< ADD THIS
+  }
+  console.log("socketClient: Emitting 'createRoom' event to server with data:", config); // <<< ADD THIS
   socket.emit("createRoom", config);
 }
 

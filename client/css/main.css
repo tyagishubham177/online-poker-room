@@ -1,93 +1,103 @@
-/* client/css/main.css */
-body {
-    font-family: sans-serif;
+/* client/css/main.css (or table.css and import it in index.html) */
+#game-area {
+    border: 1px solid #007bff;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #eef7ff;
+}
+
+#table-top {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #2c662d; /* Green felt */
+    color: white;
+    border-radius: 50px; /* Oval-ish */
+    min-height: 80px;
+}
+.card {
+    display: inline-block;
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: black; /* Default to black, specific suits set color in JS */
+    border-radius: 3px;
+    margin: 0 2px;
+    font-weight: bold;
+    min-width: 25px;
+    text-align: center;
+}
+#community-cards-container .card { font-size: 1.2em; }
+#my-hole-cards .card { font-size: 1.1em; }
+
+#seats-container {
+    display: grid; /* Using grid for better seat placement */
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-template-rows: repeat(3, auto);    /* 3 rows */
+    gap: 10px;
+    padding: 10px;
+    border: 2px solid #5a3a1a; /* Wooden border */
+    background-color: #3c783d; /* Darker green table */
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.seat {
+    border: 1px solid #aaa;
+    padding: 10px;
+    border-radius: 5px;
     background-color: #f0f0f0;
-    color: #333;
-    margin: 0;
-    padding: 0;
+    min-height: 100px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-#app-container {
-    width: 95%;
-    max-width: 1000px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin-top: 20px;
-}
-
-header {
-    display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+    text-align: center;
 }
+.seat.occupied { background-color: #d4ffd5; }
+.seat.my-seat { border: 2px solid #007bff; }
+.seat.current-turn { border: 3px solid orange; box-shadow: 0 0 10px orange; }
 
-#connection-status {
+.seat-info .player-name { font-weight: bold; display: block; margin-bottom: 5px;}
+.seat-info .player-stack { font-size: 0.9em; color: #333; display: block;}
+.seat-info .player-bet { font-size: 0.9em; color: #0056b3; display: block; margin-top:3px; font-weight: bold;}
+.seat-info .player-status { font-size: 0.8em; color: #d9534f; font-style: italic; display: block; margin-top:3px;}
+.seat-info .turn-timer { font-size: 0.8em; color: #ff8c00; font-weight: bold;}
+
+
+.player-cards-at-seat .card { font-size: 0.9em; margin: 2px; }
+.hand-name-showdown { font-size: 0.8em; color: #007bff; font-style: italic; }
+
+.dealer-button {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    color: black;
+    text-align: center;
     font-weight: bold;
+    border: 1px solid #333;
+    position: absolute; /* Position relative to seat later if needed */
+    margin-top: -15px; /* Adjust to position nicely */
+    margin-left: 30px; /* Adjust */
 }
 
-#notifications-area {
-    max-height: 150px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
+/* Player Actions Area Styling */
+#player-actions-area button {
+    background-color: #5cb85c; /* Green for actions */
+    margin: 5px;
+}
+#player-actions-area button[data-action="fold"] { background-color: #d9534f; } /* Red for fold */
+#player-actions-area input[type="number"] { width: 100px; }
+
+#rebuy-area, #host-rebuy-approval-area {
+    margin-top: 15px;
     padding: 10px;
-    margin-bottom: 20px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
+    border: 1px dashed #ccc;
 }
-
-.message {
-    margin: 5px 0;
-    padding: 3px;
-    font-size: 0.9em;
-}
-.message-info { color: #31708f; }
-.message-success { color: #3c763d; background-color: #dff0d8; border-left: 3px solid #3c763d;}
-.message-error { color: #a94442; background-color: #f2dede; border-left: 3px solid #a94442;}
-.message-game { color: #555; }
-
-/* Basic form styling */
-input[type="text"], input[type="number"] {
-    padding: 8px;
-    margin: 5px 5px 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-button {
-    padding: 8px 15px;
-    margin: 5px 5px 5px 0;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-}
-button:hover {
-    background-color: #0056b3;
-}
-hr {
-    margin: 15px 0;
-    border: 0;
-    border-top: 1px solid #eee;
-}
-
-#current-room-info button, #player-actions-area button {
-    margin-right: 10px;
-}
-
-#seats-container { /* We'll style seats properly later */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 20px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    min-height: 100px; /* Placeholder */
-}
+#host-rebuy-approval-area ul { list-style: none; padding: 0;}
+#host-rebuy-approval-area li { margin-bottom: 8px; }
