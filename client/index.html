@@ -3,19 +3,102 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MVP Poker Room</title>
+    <title>MVP Poker Room ♠️♥️♦️♣️</title>
     <link rel="stylesheet" href="css/main.css" />
+    <!-- Add other CSS files as needed: table.css, player.css etc. -->
   </head>
   <body>
-    <h1>Welcome to MVP Poker Room!</h1>
-    <p>Attempting Socket.IO connection...</p>
-    <div id="messages"></div>
-    <input type="text" id="messageInput" placeholder="Send a message to server" />
-    <button id="sendMessageButton">Send</button>
+    <div id="app-container">
+      <header>
+        <h1>MVP Poker Room</h1>
+        <div id="connection-status">Disconnected</div>
+      </header>
+
+      <div id="notifications-area">
+        <!-- Messages & errors will go here -->
+      </div>
+
+      <div id="room-management-area">
+        <h2>Room Management</h2>
+        <div id="create-room-form">
+          <input type="text" id="roomNameInput" placeholder="Room Name (Optional)" />
+          <input type="number" id="sbInput" placeholder="Small Blind (e.g., 1)" />
+          <input type="number" id="bbInput" placeholder="Big Blind (e.g., 2)" />
+          <button id="createRoomButton">Create Room</button>
+        </div>
+        <hr />
+        <div id="join-room-form">
+          <input type="text" id="joinRoomIdInput" placeholder="Room ID" />
+          <input type="text" id="playerNameInput" placeholder="Your Name" />
+          <input type="number" id="buyInInput" placeholder="Buy-in Amount" />
+          <button id="joinRoomButton">Join Room</button>
+        </div>
+        <div id="current-room-info" style="display: none">
+          <h3 id="currentRoomName"></h3>
+          <p>Room ID: <span id="currentRoomIdShare"></span> <button id="copyRoomIdButton">Copy</button></p>
+          <button id="leaveRoomButton">Leave Room</button>
+          <button id="startGameButton" style="display: none">Start Game</button>
+          <!-- Host only -->
+          <button id="requestPayoutButton" style="display: none">End Session & Get Payout</button>
+          <!-- Host only -->
+        </div>
+      </div>
+
+      <div id="game-area" style="display: none">
+        <h2>Poker Table</h2>
+        <div id="table-top">
+          <div id="community-cards-container">Community: <span id="community-cards">--</span></div>
+          <div id="pot-container">
+            Pot: <span id="main-pot">0</span>
+            <!-- Side pots will be added here -->
+          </div>
+        </div>
+
+        <div id="seats-container">
+          <!-- Seats 0-8 will be dynamically generated -->
+        </div>
+
+        <div id="player-hole-cards-area">Your Cards: <span id="my-hole-cards">--</span></div>
+
+        <div id="player-actions-area">
+          <!-- Buttons: Fold, Check, Call, Bet, Raise -->
+          <input type="number" id="betAmountInput" placeholder="Bet Amount" style="display: none" />
+          <button data-action="fold">Fold</button>
+          <button data-action="check">Check</button>
+          <button data-action="call">Call</button>
+          <button data-action="bet">Bet</button>
+          <button data-action="raise">Raise</button>
+        </div>
+
+        <div id="rebuy-area" style="display: none">
+          <p>You are busted!</p>
+          <input type="number" id="rebuyAmountInput" placeholder="Rebuy Amount" />
+          <button id="requestRebuyButton">Request Rebuy</button>
+        </div>
+
+        <div id="host-rebuy-approval-area" style="display: none">
+          <h4>Rebuy Requests:</h4>
+          <ul id="rebuy-requests-list"></ul>
+        </div>
+      </div>
+
+      <div id="hand-history-area" style="display: none">
+        <h3>Last 5 Hands</h3>
+        <button id="fetchHistoryButton">Show History</button>
+        <ul id="history-list"></ul>
+      </div>
+
+      <div id="payout-display-area" style="display: none">
+        <h2>Session Payout</h2>
+        <pre id="payout-text"></pre>
+        <button id="exportCsvButton">Export CSV</button>
+        <button id="confirmEndAndFlushButton" style="display: none">Confirm & End Session (Host)</button>
+      </div>
+    </div>
 
     <!-- Socket.IO Client Library -->
     <script src="/socket.io/socket.io.js"></script>
-    <!-- Your custom client script -->
-    <script src="js/main.js"></script>
+    <!-- Main Client Logic (Module) -->
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>
